@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'guest_list_page.dart'; // Import the guest_list_page.dart file
 import 'new_registration_page.dart';
+import 'qr_scanner_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -66,6 +67,12 @@ class HomePage extends StatelessWidget {
             );
           } else if (label == 'QR Scanner') {
             // Navigate to QR Scanner page
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QRScannerPage(),
+              ),
+            );
           } else if (label == 'Settings') {
             // Navigate to Settings page
           }
@@ -79,7 +86,7 @@ class HomePage extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Text(
             label,
-            style: TextStyle(fontSize: 18.0),
+            style: const TextStyle(fontSize: 18.0),
           ),
         ),
       ),
