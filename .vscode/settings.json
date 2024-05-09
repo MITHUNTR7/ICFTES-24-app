@@ -1,0 +1,8 @@
+{
+    "terminal.integrated.gpuAcceleration": "on",
+    "terminal.integrated.enableImages": true,
+    "emulator.emulatorPathLinux": "~/Android/Sdk/emulator",
+    "emulator.emulatorPathMac": "~/Android/Sdk/emulator",
+    "emulator.emulatorPathWindows": "~/Android/Sdk/emulator",
+    "emulator.simulatorPath": "~/Android/Sdk/emulator"
+}
