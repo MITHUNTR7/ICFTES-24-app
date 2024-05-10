@@ -24,7 +24,7 @@ class GoogleSheetsService {
 
   //####################################################### GET ALL GUEST ##############################
 
-  static Future<List<String>> getGuestNames() async {
+  static Future<Map<String, String>> getGuestNamesWithIDs() async {
     try {
       // Initialize GSheets
       final gsheets = GSheets(_credentials);
@@ -37,11 +37,19 @@ class GoogleSheetsService {
 
       // Ensure the sheet is not null
       if (sheet != null) {
-        // Fetch names from the sheet (2nd column) and sort them alphabetically
+        // Fetch names and IDs from the sheet (2nd and 1st columns) and sort them alphabetically
         final names = await sheet.values.columnByKey('Name') ?? [];
-        names.sort();
-        // Return the list of names
-        return names.cast<String>();
+        final ids = await sheet.values.columnByKey('ID') ?? [];
+        final Map<String, String> guestMap = {};
+
+        // Combine names and IDs into a map
+        for (int i = 0; i < names.length; i++) {
+          if (names[i].isNotEmpty && ids[i].isNotEmpty) {
+            guestMap[names[i]] = ids[i];
+          }
+        }
+
+        return guestMap;
       } else {
         throw ('Worksheet not found');
       }
@@ -134,6 +142,53 @@ class GoogleSheetsService {
       }
     } catch (e) {
       print('Error adding guest: $e');
+      // Show error popup
+    }
+  }
+
+  //############################################## Update Activity ######################################
+  static Future<void> updateQRData(
+      String qrData, String selectedDay, String selectedActivity) async {
+    try {
+      // Initialize GSheets
+      final gsheets = GSheets(_credentials);
+
+      // Fetch spreadsheet by its ID
+      final ss = await gsheets.spreadsheet(_spreadsheetId);
+
+      // Get the worksheet by its title based on the selected day
+      final sheet = ss.worksheetByTitle(selectedDay);
+
+      if (sheet != null) {
+        // Find the name of the ID from the guest_list sheet
+        final guestListSheet = ss.worksheetByTitle('guest_list');
+        final idColumn = await guestListSheet?.values.columnByKey('ID') ?? [];
+        final nameColumn =
+            await guestListSheet?.values.columnByKey('Name') ?? [];
+
+        final index = idColumn.indexOf(qrData);
+        if (index != -1) {
+          final guestName = nameColumn[index];
+
+          // Add a new row with the ID, Name, and current date/time for the selected activity
+          final DateFormat formatter = DateFormat('dd/MM/yyyy - HH:mm');
+          final String formattedDate = formatter.format(DateTime.now());
+
+          final newRow = {
+            'ID': qrData,
+            'Name': guestName,
+            selectedActivity: formattedDate,
+          };
+
+          await sheet.values.map.appendRow(newRow);
+        } else {
+          throw ('ID not found in guest list');
+        }
+      } else {
+        throw ('Worksheet not found');
+      }
+    } catch (e) {
+      print('Error updating QR data: $e');
       // Show error popup
     }
   }

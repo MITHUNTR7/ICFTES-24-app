@@ -7,8 +7,10 @@ class GuestListPage extends StatefulWidget {
 }
 
 class _GuestListPageState extends State<GuestListPage> {
-  List<String> guestList = [];
+  Map<String, String> guestMap = {};
+  List<String> filteredGuests = [];
   bool isLoading = false;
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
@@ -22,9 +24,10 @@ class _GuestListPageState extends State<GuestListPage> {
     });
 
     try {
-      final list = await GoogleSheetsService.getGuestNames();
+      final map = await GoogleSheetsService.getGuestNamesWithIDs();
       setState(() {
-        guestList = list.where((name) => name.isNotEmpty).toList();
+        guestMap = map;
+        filteredGuests = guestMap.keys.toList()..sort();
         isLoading = false;
       });
     } catch (e) {
@@ -35,6 +38,19 @@ class _GuestListPageState extends State<GuestListPage> {
     }
   }
 
+  void _filterGuests(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        filteredGuests = guestMap.keys.toList()..sort();
+      } else {
+        filteredGuests = guestMap.keys
+            .where((name) => name.toLowerCase().contains(query.toLowerCase()))
+            .toList()
+          ..sort();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,13 +59,33 @@ class _GuestListPageState extends State<GuestListPage> {
       ),
       body: Stack(
         children: [
-          ListView.builder(
-            itemCount: guestList.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(guestList[index]),
-              );
-            },
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: searchController,
+                  onChanged: _filterGuests,
+                  decoration: InputDecoration(
+                    labelText: 'Search by Name',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: filteredGuests.length,
+                  itemBuilder: (context, index) {
+                    final name = filteredGuests[index];
+                    final id = guestMap[name];
+                    return ListTile(
+                      title: Text(name),
+                      trailing: Text('ID: $id'),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
           if (isLoading)
             Center(

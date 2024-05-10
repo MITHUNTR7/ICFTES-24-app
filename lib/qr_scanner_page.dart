@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
+import 'package:iclst_app/sheets/google_sheets_service.dart';
 
 class QRScannerPage extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
   TextEditingController qrDataController = TextEditingController();
   String? selectedDay;
   String? selectedActivity;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -54,19 +56,19 @@ class _QRScannerPageState extends State<QRScannerPage> {
               },
               items: [
                 DropdownMenuItem(
-                  value: 'Day 1 - 21 May',
+                  value: 'day_1',
                   child: Text('Day 1 - 21 May'),
                 ),
                 DropdownMenuItem(
-                  value: 'Day 2 - 22 May',
+                  value: 'day_2',
                   child: Text('Day 2 - 22 May'),
                 ),
                 DropdownMenuItem(
-                  value: 'Day 3 - 23 May',
+                  value: 'day_3',
                   child: Text('Day 3 - 23 May'),
                 ),
                 DropdownMenuItem(
-                  value: 'Day 4 - 24 May',
+                  value: 'day_4',
                   child: Text('Day 4 - 24 May'),
                 ),
               ],
@@ -108,7 +110,18 @@ class _QRScannerPageState extends State<QRScannerPage> {
                     selectedActivity == null) {
                   _showErrorPopup('Please fill in all fields');
                 } else {
-                  // Add functionality to update data
+                  _showLoadingSpinner(); // Show loading spinner
+                  // Call function to update data
+                  GoogleSheetsService.updateQRData(
+                    qrDataController.text,
+                    selectedDay!,
+                    selectedActivity!,
+                  ).then((_) {
+                    Navigator.of(context).pop(); // Close loading spinner
+                  }).catchError((error) {
+                    Navigator.of(context).pop(); // Close loading spinner
+                    _showErrorPopup('Error updating data: $error');
+                  });
                 }
               },
               child: Text('Update'),
@@ -116,6 +129,25 @@ class _QRScannerPageState extends State<QRScannerPage> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showLoadingSpinner() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 20),
+              Text('Updating data...'),
+            ],
+          ),
+        );
+      },
     );
   }
 
