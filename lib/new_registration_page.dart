@@ -111,17 +111,19 @@ class _NewRegistrationPageState extends State<NewRegistrationPage> {
     );
 
     // Check if the provided ICLST ID is already in use
-    bool isIdInUse =
-        await GoogleSheetsService.checkIfGuestExists(iclstIdController.text);
+    Map<String, dynamic> result = await GoogleSheetsService.checkIfGuestExists(
+        iclstIdController.text, 'guest_list');
+
+    String name = result['name'];
 
     // Hide 'Checking ID' loading pop-up
     Navigator.of(context).pop();
 
-    if (isIdInUse) {
+    if (result['if_exists']) {
       setState(() {
-// Hide loading popup
+        // Hide loading popup
       });
-      _showErrorPopup('ICLST ID is already in use');
+      _showErrorPopup('$name has already used the ICLST ID');
       return;
     }
 

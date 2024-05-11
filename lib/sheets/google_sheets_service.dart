@@ -60,7 +60,8 @@ class GoogleSheetsService {
 
   //####################################################### CHECK IF GUEST EXIST #######################
 
-  static Future<bool> checkIfGuestExists(String id) async {
+  static Future<Map<String, dynamic>> checkIfGuestExists(
+      String id, String sheetName) async {
     try {
       // Initialize GSheets
       final gsheets = GSheets(_credentials);
@@ -69,7 +70,7 @@ class GoogleSheetsService {
       final ss = await gsheets.spreadsheet(_spreadsheetId);
 
       // Get the worksheet by its title
-      final sheet = ss.worksheetByTitle('guest_list');
+      final sheet = ss.worksheetByTitle(sheetName);
 
       if (sheet != null) {
         // Fetch all values in the 'ID' column
@@ -85,7 +86,8 @@ class GoogleSheetsService {
 
           // Check if the 'Name' column has any value at the corresponding index
           if (index >= 0 && index < names.length && names[index].isNotEmpty) {
-            return true;
+            final name = names[index];
+            return {'if_exists': true, 'name': name, 'index': index};
           }
         }
       } else {
@@ -94,7 +96,7 @@ class GoogleSheetsService {
     } catch (e) {
       throw ('Error checking if guest exists: $e');
     }
-    return false;
+    return {'if_exists': false, 'name': 'none', 'index': 0};
   }
 
   //####################################################### ADD NEW GUEST ##############################
@@ -112,11 +114,6 @@ class GoogleSheetsService {
       final sheet = ss.worksheetByTitle('guest_list');
 
       if (sheet != null) {
-        // Check if the guest ID already exists
-        if (await checkIfGuestExists(id)) {
-          throw ('Guest with ID $id already exists');
-        }
-
         // Find the index of the given ID
         final idColumn = await sheet.values.columnByKey('ID') ?? [];
         final index = idColumn.indexOf(id);
@@ -147,8 +144,13 @@ class GoogleSheetsService {
   }
 
   //############################################## Update Activity ######################################
-  static Future<void> updateQRData(
-      String qrData, String selectedDay, String selectedActivity) async {
+
+  static Future<dynamic> updateQRData(
+    String qrData,
+    String selectedDay,
+    String selectedActivity,
+    Map<String, dynamic> result,
+  ) async {
     try {
       // Initialize GSheets
       final gsheets = GSheets(_credentials);
@@ -160,29 +162,61 @@ class GoogleSheetsService {
       final sheet = ss.worksheetByTitle(selectedDay);
 
       if (sheet != null) {
-        // Find the name of the ID from the guest_list sheet
-        final guestListSheet = ss.worksheetByTitle('guest_list');
-        final idColumn = await guestListSheet?.values.columnByKey('ID') ?? [];
-        final nameColumn =
-            await guestListSheet?.values.columnByKey('Name') ?? [];
+        // Get the index of the row
+        final int index = result['index'];
 
-        final index = idColumn.indexOf(qrData);
-        if (index != -1) {
-          final guestName = nameColumn[index];
+        // If guest exists
+        if (result['if_exists']) {
+          // Return 'is_running' for debugging
+          final List<String>? activityColumn =
+              await sheet.values.columnByKey(selectedActivity);
 
-          // Add a new row with the ID, Name, and current date/time for the selected activity
-          final DateFormat formatter = DateFormat('dd/MM/yyyy - HH:mm');
-          final String formattedDate = formatter.format(DateTime.now());
+          final List<String>? headers = await sheet.values
+              .row(1); // assuming headers are in the first row
+          final int activityIndex = headers?.indexOf(selectedActivity) ?? -1;
 
-          final newRow = {
-            'ID': qrData,
-            'Name': guestName,
-            selectedActivity: formattedDate,
-          };
-
-          await sheet.values.map.appendRow(newRow);
+          try {
+            if (activityColumn == null ||
+                activityColumn.isEmpty ||
+                index >= activityColumn.length ||
+                activityColumn[index] == '') {
+              final DateFormat formatter = DateFormat('dd/MM/yyyy - HH:mm');
+              final String formattedDate = formatter.format(DateTime.now());
+              await sheet.values.insertValue(formattedDate,
+                  column: activityIndex + 1, row: index + 2);
+              return 'Updated';
+            } else {
+              return 'already done';
+            }
+          } catch (e) {
+            return e;
+          }
         } else {
-          throw ('ID not found in guest list');
+          // #####################################################################################
+          // Find the name of the ID from the guest_list sheet
+
+          final guestListSheet = ss.worksheetByTitle('guest_list');
+          final idColumn = await guestListSheet?.values.columnByKey('ID');
+          final nameColumn = await guestListSheet?.values.columnByKey('Name');
+
+          final index = idColumn?.indexOf(qrData) ?? -1;
+          if (index != -1) {
+            final guestName = nameColumn?[index];
+
+            // Add a new row with the ID, Name, and current date/time for the selected activity
+            final DateFormat formatter = DateFormat('dd/MM/yyyy - HH:mm');
+            final String formattedDate = formatter.format(DateTime.now());
+
+            final newRow = {
+              'ID': qrData,
+              'Name': guestName,
+              selectedActivity: formattedDate,
+            };
+
+            await sheet.values.map.appendRow(newRow);
+          } else {
+            throw ('ID not found in guest list');
+          }
         }
       } else {
         throw ('Worksheet not found');

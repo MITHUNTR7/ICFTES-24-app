@@ -104,20 +104,39 @@ class _QRScannerPageState extends State<QRScannerPage> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (qrDataController.text.isEmpty ||
                     selectedDay == null ||
                     selectedActivity == null) {
                   _showErrorPopup('Please fill in all fields');
                 } else {
-                  _showLoadingSpinner(); // Show loading spinner
+                  // Show loading spinner
+                  _showLoadingSpinner();
+
+                  // Check if guest exists
+                  Map<String, dynamic> result =
+                      await GoogleSheetsService.checkIfGuestExists(
+                          qrDataController.text, selectedDay!);
+                  print(result);
+
                   // Call function to update data
                   GoogleSheetsService.updateQRData(
                     qrDataController.text,
                     selectedDay!,
                     selectedActivity!,
-                  ).then((_) {
-                    Navigator.of(context).pop(); // Close loading spinner
+                    result,
+                  ).then((value) {
+                    Navigator.of(context).pop();
+                    if (value == 'Updated') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Updated successfully')),
+                      );
+                    }
+                    // Close loading spinner
+                    if (value == 'already done') {
+                      _showErrorPopup(
+                          "${result['name']} already done $selectedActivity");
+                    }
                   }).catchError((error) {
                     Navigator.of(context).pop(); // Close loading spinner
                     _showErrorPopup('Error updating data: $error');
