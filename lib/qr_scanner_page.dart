@@ -16,136 +16,189 @@ class _QRScannerPageState extends State<QRScannerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('QR Scanner'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ElevatedButton(
-              onPressed: () async {
-                var res = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SimpleBarcodeScannerPage(),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color(0xFFDBE9F6), // Starting color
+              Colors.white, // Ending color
+            ],
+            stops: [0.7, 1.0], // Gradient stops
+          ),
+        ),
+        child: Center(
+          child: Container(
+            margin: EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: Text(
+                      'QR Scanner',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24.0,
+                        foreground: Paint()
+                          ..shader = LinearGradient(
+                            colors: [
+                              Color(0xFF5451D6), // Starting color
+                              Color(0xFF1DBEF5), // Ending color
+                            ],
+                          ).createShader(
+                            Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
+                          ),
+                      ),
+                    ),
                   ),
-                );
-                setState(() {
-                  if (res is String) {
-                    qrDataController.text = res;
-                  }
-                });
-              },
-              child: Text('Scan QR Card'),
-            ),
-            TextFormField(
-              controller: qrDataController,
-              decoration: InputDecoration(
-                labelText: 'QR Data',
-              ),
-            ),
-            SizedBox(height: 20),
-            DropdownButtonFormField<String>(
-              value: selectedDay,
-              onChanged: (value) {
-                setState(() {
-                  selectedDay = value;
-                });
-              },
-              items: [
-                DropdownMenuItem(
-                  value: 'day_1',
-                  child: Text('Day 1 - 21 May'),
-                ),
-                DropdownMenuItem(
-                  value: 'day_2',
-                  child: Text('Day 2 - 22 May'),
-                ),
-                DropdownMenuItem(
-                  value: 'day_3',
-                  child: Text('Day 3 - 23 May'),
-                ),
-                DropdownMenuItem(
-                  value: 'day_4',
-                  child: Text('Day 4 - 24 May'),
-                ),
-              ],
-              decoration: InputDecoration(
-                labelText: 'Day',
-              ),
-            ),
-            SizedBox(height: 20),
-            DropdownButtonFormField<String>(
-              value: selectedActivity,
-              onChanged: (value) {
-                setState(() {
-                  selectedActivity = value;
-                });
-              },
-              items: [
-                DropdownMenuItem(
-                  value: 'Breakfast',
-                  child: Text('Breakfast'),
-                ),
-                DropdownMenuItem(
-                  value: 'Lunch',
-                  child: Text('Lunch'),
-                ),
-                DropdownMenuItem(
-                  value: 'Dinner',
-                  child: Text('Dinner'),
-                ),
-              ],
-              decoration: InputDecoration(
-                labelText: 'Activity',
-              ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                if (qrDataController.text.isEmpty ||
-                    selectedDay == null ||
-                    selectedActivity == null) {
-                  _showErrorPopup('Please fill in all fields');
-                } else {
-                  // Show loading spinner
-                  _showLoadingSpinner();
+                  SizedBox(height: 20),
+                  DropdownButtonFormField<String>(
+                    value: selectedDay,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedDay = value;
+                      });
+                    },
+                    items: [
+                      DropdownMenuItem(
+                        value: 'day_1',
+                        child: Text('Day 1 - 21 May'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'day_2',
+                        child: Text('Day 2 - 22 May'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'day_3',
+                        child: Text('Day 3 - 23 May'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'day_4',
+                        child: Text('Day 4 - 24 May'),
+                      ),
+                    ],
+                    decoration: InputDecoration(
+                      labelText: 'Day',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  DropdownButtonFormField<String>(
+                    value: selectedActivity,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedActivity = value;
+                      });
+                    },
+                    items: [
+                      DropdownMenuItem(
+                        value: 'Breakfast',
+                        child: Text('Breakfast'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Lunch',
+                        child: Text('Lunch'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Dinner',
+                        child: Text('Dinner'),
+                      ),
+                    ],
+                    decoration: InputDecoration(
+                      labelText: 'Activity',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    controller: qrDataController,
+                    decoration: InputDecoration(
+                      labelText: 'QR Data',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (qrDataController.text.isEmpty ||
+                          selectedDay == null ||
+                          selectedActivity == null) {
+                        _showErrorPopup('Please fill in all fields');
+                      } else {
+                        // Show loading spinner
+                        _showLoadingSpinner();
 
-                  // Check if guest exists
-                  Map<String, dynamic> result =
-                      await GoogleSheetsService.checkIfGuestExists(
-                          qrDataController.text, selectedDay!);
-                  print(result);
+                        // Check if guest exists
+                        Map<String, dynamic> result =
+                            await GoogleSheetsService.checkIfGuestExists(
+                                qrDataController.text, selectedDay!);
+                        print(result);
 
-                  // Call function to update data
-                  GoogleSheetsService.updateQRData(
-                    qrDataController.text,
-                    selectedDay!,
-                    selectedActivity!,
-                    result,
-                  ).then((value) {
-                    Navigator.of(context).pop();
-                    if (value == 'Updated') {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Updated successfully')),
+                        // Call function to update data
+                        GoogleSheetsService.updateQRData(
+                          qrDataController.text,
+                          selectedDay!,
+                          selectedActivity!,
+                          result,
+                        ).then((value) {
+                          Navigator.of(context).pop();
+                          if (value == 'Updated') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Updated successfully')),
+                            );
+                          }
+                          // Close loading spinner
+                          if (value == 'already done') {
+                            _showErrorPopup(
+                                "${result['name']} already done $selectedActivity");
+                          }
+                        }).catchError((error) {
+                          Navigator.of(context).pop(); // Close loading spinner
+                          _showErrorPopup('Error updating data: $error');
+                        });
+                      }
+                    },
+                    child: Text('Update'),
+                  ),
+                  SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () async {
+                      var res = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SimpleBarcodeScannerPage(),
+                        ),
                       );
-                    }
-                    // Close loading spinner
-                    if (value == 'already done') {
-                      _showErrorPopup(
-                          "${result['name']} already done $selectedActivity");
-                    }
-                  }).catchError((error) {
-                    Navigator.of(context).pop(); // Close loading spinner
-                    _showErrorPopup('Error updating data: $error');
-                  });
-                }
-              },
-              child: Text('Update'),
+                      setState(() {
+                        if (res is String) {
+                          qrDataController.text = res;
+                        }
+                      });
+                    },
+                    child: Text('Scan QR Card'),
+                  ),
+                ],
+              ),
             ),
-          ],
+          ),
         ),
       ),
     );

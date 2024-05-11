@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
             top: MediaQuery.of(context).size.height *
                 0.52, // Adjusted position for the new column
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 10.0),
+              margin: EdgeInsets.symmetric(horizontal: 19.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 boxShadow: [
