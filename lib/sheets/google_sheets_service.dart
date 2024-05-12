@@ -60,7 +60,48 @@ class GoogleSheetsService {
 
   //####################################################### CHECK IF GUEST EXIST #######################
 
-  static Future<Map<String, dynamic>> checkIfGuestExists(
+  static Future<Map<String, dynamic>> checkIfGuestExists_reg(
+      String id, String sheetName) async {
+    try {
+      // Initialize GSheets
+      final gsheets = GSheets(_credentials);
+
+      // Fetch spreadsheet by its ID
+      final ss = await gsheets.spreadsheet(_spreadsheetId);
+
+      // Get the worksheet by its title
+      final sheet = ss.worksheetByTitle(sheetName);
+
+      if (sheet != null) {
+        // Fetch all values in the 'ID' column
+        final idColumn = await sheet.values.columnByKey('ID') ?? [];
+
+        // Check if the given ID exists in the 'ID' column
+        if (idColumn.contains(id)) {
+          // Get the index of the ID
+          final index = idColumn.indexOf(id);
+
+          // Fetch the 'Name' column values
+          final names = await sheet.values.columnByKey('Name') ?? [];
+
+          // Check if the 'Name' column has any value at the corresponding index
+          if (index >= 0 && index < names.length && names[index].isNotEmpty) {
+            final name = names[index];
+            return {'if_exists': true, 'name': name, 'index': index};
+          }
+        } else {
+          return {'if_exists': null};
+        }
+      } else {
+        throw ('Worksheet not found');
+      }
+    } catch (e) {
+      throw ('Error checking if guest exists: $e');
+    }
+    return {'if_exists': false, 'name': 'none', 'index': 0};
+  }
+
+  static Future<Map<String, dynamic>> checkIfGuestExists_update(
       String id, String sheetName) async {
     try {
       // Initialize GSheets
@@ -192,9 +233,12 @@ class GoogleSheetsService {
             return e;
           }
         } else {
-          // #####################################################################################
-          // Find the name of the ID from the guest_list sheet
+          // Check if result is null
+          if (result == null) {
+            return 'Error: Guest check failed';
+          }
 
+          // Find the name of the ID from the guest_list sheet
           final guestListSheet = ss.worksheetByTitle('guest_list');
           final idColumn = await guestListSheet?.values.columnByKey('ID');
           final nameColumn = await guestListSheet?.values.columnByKey('Name');
@@ -214,6 +258,7 @@ class GoogleSheetsService {
             };
 
             await sheet.values.map.appendRow(newRow);
+            return 'Updated';
           } else {
             throw ('ID not found in guest list');
           }
@@ -223,7 +268,7 @@ class GoogleSheetsService {
       }
     } catch (e) {
       print('Error updating QR data: $e');
-      // Show error popup
+      return 'Error: $e';
     }
   }
 }

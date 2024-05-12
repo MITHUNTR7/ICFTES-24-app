@@ -3,6 +3,10 @@ import 'guest_list_page.dart'; // Import the guest_list_page.dart file
 import 'new_registration_page.dart';
 import 'qr_scanner_page.dart';
 import 'sheets/google_sheets_service.dart'; // Import the GoogleSheetsService
+import 'package:url_launcher/url_launcher.dart'; // Import the url_launcher package
+
+final Uri _url = Uri.parse(
+    'https://docs.google.com/spreadsheets/d/1u9fKUvVymHb-W6iY0UGIoE-nb3hzxAAXhRQfktpiSoc');
 
 void main() {
   runApp(MyApp());
@@ -131,9 +135,9 @@ class _HomePageState extends State<HomePage> {
             left: 0,
             right: 0,
             top: MediaQuery.of(context).size.height *
-                0.52, // Adjusted position for the new column
+                0.51, // Adjusted position for the new column
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 19.0),
+              margin: EdgeInsets.symmetric(horizontal: 10.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 boxShadow: [
@@ -286,9 +290,9 @@ class _HomePageState extends State<HomePage> {
                             ),
                             child: ElevatedButton(
                               onPressed: () =>
-                                  _handleButtonPress(context, 'Settings'),
+                                  _handleButtonPress(context, 'Sheets'),
                               child: Text(
-                                'Settings',
+                                'Google Sheets',
                                 style: const TextStyle(
                                     fontSize: 18.0, color: Colors.white),
                               ),
@@ -298,7 +302,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 padding: EdgeInsets.symmetric(
                                     vertical: 35.0,
-                                    horizontal: 60), // Adjust height
+                                    horizontal: 35), // Adjust height
                                 backgroundColor: Colors.transparent,
                                 shadowColor: Colors.transparent,
                               ),
@@ -428,10 +432,25 @@ class _HomePageState extends State<HomePage> {
           ),
         );
         break;
-      case 'Settings':
+      case 'Sheets':
         // Handle navigation for Settings
+        _launchUrl();
         break;
       default:
+    }
+  }
+
+  Future<void> _launchUrl() async {
+    try {
+      if (await canLaunchUrl(_url)) {
+        await launchUrl(_url);
+      } else {
+        await launchUrl(_url);
+        throw Exception('Could not launch $_url: Unsupported URL');
+      }
+    } catch (e) {
+      print('Error launching URL: $e');
+      // Handle error launching URL
     }
   }
 }

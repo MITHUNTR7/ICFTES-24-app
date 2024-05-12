@@ -46,7 +46,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
             ),
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10.0),
@@ -135,65 +135,134 @@ class _QRScannerPageState extends State<QRScannerPage> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (qrDataController.text.isEmpty ||
-                          selectedDay == null ||
-                          selectedActivity == null) {
-                        _showErrorPopup('Please fill in all fields');
-                      } else {
-                        // Show loading spinner
-                        _showLoadingSpinner();
-
-                        // Check if guest exists
-                        Map<String, dynamic> result =
-                            await GoogleSheetsService.checkIfGuestExists(
-                                qrDataController.text, selectedDay!);
-                        print(result);
-
-                        // Call function to update data
-                        GoogleSheetsService.updateQRData(
-                          qrDataController.text,
-                          selectedDay!,
-                          selectedActivity!,
-                          result,
-                        ).then((value) {
-                          Navigator.of(context).pop();
-                          if (value == 'Updated') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Updated successfully')),
-                            );
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          Color(0xff5451D6),
+                          Color(0xff1DBEF5),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        var res = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SimpleBarcodeScannerPage(),
+                          ),
+                        );
+                        setState(() {
+                          if (res is String) {
+                            qrDataController.text = res;
                           }
-                          // Close loading spinner
-                          if (value == 'already done') {
-                            _showErrorPopup(
-                                "${result['name']} already done $selectedActivity");
-                          }
-                        }).catchError((error) {
-                          Navigator.of(context).pop(); // Close loading spinner
-                          _showErrorPopup('Error updating data: $error');
                         });
-                      }
-                    },
-                    child: Text('Update'),
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/qr_scanner_icon.png', // Add your icon path
+                            height: 35, // Adjust icon size as needed
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Scan QR Card',
+                            style: const TextStyle(
+                                fontSize: 18.0, color: Colors.white),
+                          ),
+                        ],
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 20), // Adjust height
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                      ),
+                    ),
                   ),
                   SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () async {
-                      var res = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SimpleBarcodeScannerPage(),
-                        ),
-                      );
-                      setState(() {
-                        if (res is String) {
-                          qrDataController.text = res;
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          Color(0xff5451D6),
+                          Color(0xff1DBEF5),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (qrDataController.text.isEmpty ||
+                            selectedDay == null ||
+                            selectedActivity == null) {
+                          _showErrorPopup('Please fill in all fields');
+                        } else {
+                          // Show loading spinner
+                          _showLoadingSpinner();
+
+                          // Check if guest exists
+                          Map<String, dynamic> result =
+                              await GoogleSheetsService
+                                  .checkIfGuestExists_update(
+                                      qrDataController.text, selectedDay!);
+                          print(result);
+
+                          // Call function to update data
+                          GoogleSheetsService.updateQRData(
+                            qrDataController.text,
+                            selectedDay!,
+                            selectedActivity!,
+                            result,
+                          ).then((value) {
+                            Navigator.of(context).pop();
+                            if (value == 'Updated') {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Updated successfully')),
+                              );
+                            }
+                            // Close loading spinner
+                            if (value == 'already done') {
+                              _showErrorPopup(
+                                  "${result['name']} already done $selectedActivity");
+                            }
+                          }).catchError((error) {
+                            Navigator.of(context)
+                                .pop(); // Close loading spinner
+                            _showErrorPopup('Error updating data: $error');
+                          });
                         }
-                      });
-                    },
-                    child: Text('Scan QR Card'),
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Update',
+                            style: const TextStyle(
+                                fontSize: 18.0, color: Colors.white),
+                          ),
+                        ],
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 30), // Adjust height
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                      ),
+                    ),
                   ),
                 ],
               ),

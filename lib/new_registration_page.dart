@@ -168,7 +168,7 @@ class _NewRegistrationPageState extends State<NewRegistrationPage> {
                           Color(0xff1DBEF5),
                         ],
                       ),
-                      borderRadius: BorderRadius.circular(10.0),
+                      borderRadius: BorderRadius.circular(25.0),
                     ),
                     child: ElevatedButton(
                       onPressed: () => _registerNewGuest(),
@@ -202,7 +202,6 @@ class _NewRegistrationPageState extends State<NewRegistrationPage> {
     );
   }
 
-//SimpleBarcodeScannerPage(),
   void _registerNewGuest() async {
     // Check if any input field is empty
     if (nameController.text.isEmpty ||
@@ -214,7 +213,7 @@ class _NewRegistrationPageState extends State<NewRegistrationPage> {
     }
 
     setState(() {
-// Show loading popup
+      // Show loading popup
     });
 
     // Show 'Checking ID' loading pop-up
@@ -227,22 +226,28 @@ class _NewRegistrationPageState extends State<NewRegistrationPage> {
     );
 
     // Check if the provided ICLST ID is already in use
-    Map<String, dynamic> result = await GoogleSheetsService.checkIfGuestExists(
-        iclstIdController.text, 'guest_list');
-
-    String name = result['name'];
+    Map<String, dynamic> result =
+        await GoogleSheetsService.checkIfGuestExists_reg(
+            iclstIdController.text, 'guest_list');
 
     // Hide 'Checking ID' loading pop-up
     Navigator.of(context).pop();
 
-    if (result['if_exists']) {
+    if (result['if_exists'] == null) {
+      // ICLST ID is invalid
+      _showErrorPopup('Invalid ICLST ID');
+      return;
+    }
+
+    String name = result['name'];
+
+    if (result['if_exists'] == true) {
       setState(() {
         // Hide loading popup
       });
       _showErrorPopup('$name has already used the ICLST ID');
       return;
     }
-
     // Register the new guest
     try {
       // Show loading popup during registration
