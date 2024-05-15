@@ -79,19 +79,15 @@ class _QRScannerPageState extends State<QRScannerPage> {
                     items: [
                       DropdownMenuItem(
                         value: 'day_1',
-                        child: Text('Day 1 - 21 May'),
+                        child: Text('Day 1 - 22 May'),
                       ),
                       DropdownMenuItem(
                         value: 'day_2',
-                        child: Text('Day 2 - 22 May'),
+                        child: Text('Day 2 - 23 May'),
                       ),
                       DropdownMenuItem(
                         value: 'day_3',
-                        child: Text('Day 3 - 23 May'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'day_4',
-                        child: Text('Day 4 - 24 May'),
+                        child: Text('Day 3 - 24 May'),
                       ),
                     ],
                     decoration: InputDecoration(

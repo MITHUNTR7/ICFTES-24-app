@@ -233,11 +233,6 @@ class GoogleSheetsService {
             return e;
           }
         } else {
-          // Check if result is null
-          if (result == null) {
-            return 'Error: Guest check failed';
-          }
-
           // Find the name of the ID from the guest_list sheet
           final guestListSheet = ss.worksheetByTitle('guest_list');
           final idColumn = await guestListSheet?.values.columnByKey('ID');
