@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:iclst_app/sheets/google_sheets_service.dart';
+import 'package:intl/intl.dart'; // Importing the intl package for date formatting
 
 class QRScannerPage extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              Color(0xFFDBE9F6), // Starting color
+              Color(0xFFE0F7FA), // Starting color
               Colors.white, // Ending color
             ],
             stops: [0.7, 1.0], // Gradient stops
@@ -59,8 +60,8 @@ class _QRScannerPageState extends State<QRScannerPage> {
                         foreground: Paint()
                           ..shader = LinearGradient(
                             colors: [
-                              Color(0xFF5451D6), // Starting color
-                              Color(0xFF1DBEF5), // Ending color
+                              Color(0xFF00796B), // Starting color
+                              Color(0xFF004D40), // Ending color
                             ],
                           ).createShader(
                             Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
@@ -79,15 +80,15 @@ class _QRScannerPageState extends State<QRScannerPage> {
                     items: [
                       DropdownMenuItem(
                         value: 'day_1',
-                        child: Text('Day 1 - 22 May'),
+                        child: Text('Day 1 - 6 June'),
                       ),
                       DropdownMenuItem(
                         value: 'day_2',
-                        child: Text('Day 2 - 23 May'),
+                        child: Text('Day 2 - 7 June'),
                       ),
                       DropdownMenuItem(
                         value: 'day_3',
-                        child: Text('Day 3 - 24 May'),
+                        child: Text('Day 3 - 8 June'),
                       ),
                     ],
                     decoration: InputDecoration(
@@ -105,15 +106,11 @@ class _QRScannerPageState extends State<QRScannerPage> {
                     },
                     items: [
                       DropdownMenuItem(
-                        value: 'Breakfast',
-                        child: Text('Breakfast'),
+                        value: 'check_in',
+                        child: Text('Register'),
                       ),
                       DropdownMenuItem(
-                        value: 'Lunch',
-                        child: Text('Lunch'),
-                      ),
-                      DropdownMenuItem(
-                        value: 'Dinner',
+                        value: 'dinner',
                         child: Text('Dinner'),
                       ),
                     ],
@@ -137,8 +134,8 @@ class _QRScannerPageState extends State<QRScannerPage> {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                         colors: [
-                          Color(0xff5451D6),
-                          Color(0xff1DBEF5),
+                          Color(0xFF00796B),
+                          Color(0xFF004D40),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(30.0),
@@ -190,8 +187,8 @@ class _QRScannerPageState extends State<QRScannerPage> {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                         colors: [
-                          Color(0xff5451D6),
-                          Color(0xff1DBEF5),
+                          Color(0xFF00796B),
+                          Color(0xFF004D40),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(25.0),
@@ -211,7 +208,6 @@ class _QRScannerPageState extends State<QRScannerPage> {
                               await GoogleSheetsService
                                   .checkIfGuestExists_update(
                                       qrDataController.text, selectedDay!);
-                          print(result);
 
                           // Call function to update data
                           GoogleSheetsService.updateQRData(
@@ -226,11 +222,9 @@ class _QRScannerPageState extends State<QRScannerPage> {
                                 const SnackBar(
                                     content: Text('Updated successfully')),
                               );
-                            }
-                            // Close loading spinner
-                            if (value == 'already done') {
-                              _showErrorPopup(
-                                  "${result['name']} already done $selectedActivity");
+                            } else if (value == 'User already checked-in' ||
+                                value == 'User already completed dinner') {
+                              _showErrorPopup(value);
                             }
                           }).catchError((error) {
                             Navigator.of(context)

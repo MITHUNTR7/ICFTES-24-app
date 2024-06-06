@@ -1,2 +1,2 @@
 # iclst_app
- Guest Management Flutter Application for International Conference on Logistics, Supply Chain and Transportation.
+Participants management Flutter Application for International Conference on fluid, thermal and energy systems.

@@ -5,22 +5,48 @@ class GoogleSheetsService {
   // Credentials
   static const _credentials = {
     "type": "service_account",
-    "project_id": "iclst-422205",
-    "private_key_id": "cd3081afea77b36cef3e6a549b3b5372f67afdfe",
-    "private_key":
-        "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCq8tqE70MHkgCO\nt/0kMVCQ8huF+e87gedJ0QiNe0G67WvmA/joXbWj1x+8ihs2NVq5P5L5nS0Q/w6m\nt/pZuwBkSX7kF5TtwowShS3SgM3FUBBtLyfoJcLeCPbUq4X4tCrvVueqX2WPxxWo\n7XRVuQE6lL4EO8znt1/KM5Z8+LUtY7RgCnOqRFApdpUk9zjuyqQK2q1jd5sIsxoq\n96ESjVwKP0u/BNZiANYleEy0QiMPVgUB+adQmjgBUqGYomh0oRcefZqMro3e0t24\nNWenfIosF6sMhL8IATU+0Izv7KPYyNiIUr21j7od7QJZjsf4I+Upec5mrlg/7nB/\nmXNTnfG7AgMBAAECggEAIQ4pq/fZ9b5JJk+0fsmcYxK1uL/d/xs83nyxky4IxT0A\nlq8g88mfBGnmJJ5t6ZsCinydDnBSlQ1Ex38exTgQONQvWaqnrRvn2vLuq9wlLeiv\n7HToWg7nMej41aG/G5q3DKW40Sx2JomgChS0YJkQAERfw9DOa+X8+0vjZxHucrKZ\nq9ISh2qmsmhDetzAkJzdJoD/86n546/eYdElIYZ0WfRtEpm4oS2dNM7TDCZhavpk\nQ3nz2KJd770mXkWqzxBfaUIdC1U0xtJvivaDCbRV9gc4SenPwg5fqVvEXsRn/LC/\nnZxA+9Is3Pk1USdOVj/gjaWyA/AZ192aODTyi4G+DQKBgQDwwbleRjm1cobvYLdc\nc0pihn45EHLOxlvC7Cuh1kM5+ISyEaUg9BmVHFibM5N1HBh2s3Hrew8eS1Q9ApRU\nley2EL4dnAGwWH3ss7aVljS2zpgex5OB5z7XPzABF5qlXSWR1Dzk6iIHzxmx+jBX\n+CaAwkZXMzNwH8Itmj4aAVE5DwKBgQC1xadYh59LDMWcblv5BPYvcyBgeSj8v7cA\nlqGYf63b4caUPhl+pUeyb9Dr72qzdTV4c6KvjNCNAduQV/SpsAk+tX+bDRfjopGe\nWzAWFzt9TPhQhYDgSStMTC5dRTgxJUsCx5o0D/APtyINbbBndr0GZXBCB15OZSGA\nn+bSu1SElQKBgFsEYdfKJLb7/RcyMR+6Vjy5K67XERAq3TXrovMj1XZtBX1sPkke\n/yzn8nd6IBz96iG15TNo6mZBhC8scncn1r1dxwHaoKjSS4jYyAX1KyiRIeFBAfry\nOUeWk8dV7RjnBfUDj6HbAdKB8Ozf8LbREX1L9Nuyd5fD6dzjmuap6NLxAoGARvZH\n0372yATPbLeEvl2agoGuZRtHzgxGNDuaEH/f7tRgguUPbOq3Z8jRRhpsjGy4mDKE\nk4YksLfF8L71q/0mTs3qaCyfY+XGdYzh4+3j8pHG6yCDZIwMFDg1bYIlYsJNW2Nz\nJtoF/QyghZ+J24p2VvXo8k4QGgjPIHjMUv6BC1UCgYAxlshSjDVsPmlzchKQZxMS\nkUBv8jQxFADEkjtuiyMbAMaXNJg7iiezS58HbxiIwgaks3H2ZAx/o0BY7StNgpkA\nLA4sANaA3erRoUxeDwf80NCz5obTtGDkywrmeKF0qeO4OZqecbrLa41jcAuIzzwR\nL4FYvJX9Gu8KeuvE8XnuFw==\n-----END PRIVATE KEY-----\n",
-    "client_email": "gsheets@iclst-422205.iam.gserviceaccount.com",
-    "client_id": "118160749891228162003",
+    "project_id": "icftes-app",
+    "private_key_id": "b73b78db54b75eafc985215f904332c0e95ead56",
+    "private_key": "-----BEGIN PRIVATE KEY-----\n"
+        "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDvHzCG/dzDRtPo\n"
+        "ozynnj6UlJEtLc9n/nC1msTJwhhhdd+j9Jqxv5Ki6RJrEwlZcyBU3kFA7S13Bbpi\n"
+        "7e6KpV4ZH51AiIEMUP3zIovXTfLUrmRyY6FgwHq5BUWIrBZqCPaumzy/uknP8yYm\n"
+        "XbY6+523OG8eL3H3PRMQ1XJZTbW3I+H4wR5v560hl5tivuKrAbXAyYQL0WM4Jx+A\n"
+        "uyL7UBu2PJeEeDh2Lus7H7/DFs7aHwhou9/UsUFhbuULPKCtwAZLe40/r5eAHfAI\n"
+        "XNp8mQvQ1+9g3Q0+QCS/C1P6nsMO/5PL4ZUKg+v2aTU2iDlHM4Tlix9M/UBk4fdd\n"
+        "NjKFNOIbAgMBAAECggEAcM8gD69YJPAXLNtF1DX9hA8K5muEO6V3+tUHHb/pzKDV\n"
+        "Xv4YtN6SCTU3sTgL4x1DFYa89ipuloYnRmDFdrdJS0T05OsBJpRXGgskOfDWLKwR\n"
+        "Sz3hdkmYHA12nmHBOUj9R6aI5FK4W9h0GQmA3Razcyq2kWEEvQUdJ4XrKmJU5g6o\n"
+        "FIi3dun/MvZgEPtI2ZBLkQRXkA+62ToNA/m88HWUHkgdlOZJbprj5HVWb1rEUDcq\n"
+        "sUhhW7C8DBB/iIBeRLc9dFOoiSDc+iK7uf3jaD922RMCpcH6QONbUqzulEdW+pZj\n"
+        "r5t+a1ujwpYSMX5yESvRd6TqgtmA66bRpwpcK54jAQKBgQD+b0Tw1Uctx3Ew4v4z\n"
+        "kk/43ZYFjPyrAPuZZNgR8/0XylZ199JUkEw+Yfiog2bhGJ/uXeGqkNNzrR7OiXRW\n"
+        "DIoy+mU72Kj5Sd5wWwCdpV0H8LyESqXQVux4Ot9qiifHP1IMI2U0L0pum6HefqGO\n"
+        "AdJsLgOsVMqegmBB/9+5YZ65QQKBgQDwl82FQkBESp7QlGzCdu1pFVhrAETsEsOK\n"
+        "wxYc+7YjZy+K2HoenLRWHNsn9/TJpaWhEYAmXE7gfkX04cw1uNymGFw11xeGW3on\n"
+        "uKyGctMIW9PZPLIlSDBqghU24U4JfYd9TudFwdqw/JITVu/2eQwW0STmT7eHGQpq\n"
+        "nT4SBT8IWwKBgFb6qtK51m9r8uIHd2ch6XzmI1cab3X2DAzQUJ0yj58GaLBDW//U\n"
+        "pHve+iaBZTYmOOY/6dlpUSAGWrW4f7C68LOkrd7bnkg6XHSEZ5183mTMg2WmLzEd\n"
+        "xhED70R4nkia+O11XC+Oyx8szRVGrOvi65BX2qGbCvlNEKL/WfgBy0UBAoGBAKA9\n"
+        "arujaWxSir3+7QUD8pF3jwENF9pnkOcdkd/R4fhoZCjEj2lOE2n7JBfVtKqM8eh5\n"
+        "4HEsL7ijQXKc5MavDf5t4RRW4qswyAYmoHmXhmhdyJY6L6hXETAO3ZREsRXvDktu\n"
+        "Puid+UrBnYTV9VKiQmP7/eiLFYAcNGzXt5yG8/lbAoGBANpX4Mka/oWaCEtpX2CK\n"
+        "nD+uFKKPma8kDYpLnP5oWI7u1PcIMvWWpT1mYDaQwL6Ujz8GeEzGgOOBxofPF0uT\n"
+        "YiuE9m1PVRazLUeI7odj7vhn8IdrxFNhg0uu1+9d9pTwkzWJAWlHFaZ3NA4DjnrW\n"
+        "pI9y+DEr8i/yUtsrh5jiPWvk\n-----END PRIVATE KEY-----\n",
+    "client_email": "icftes@icftes-app.iam.gserviceaccount.com",
+    "client_id": "112288024848976293452",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
     "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "auth_provider_x509_cert_url":
+        "https://www.googleapis.com/oauth2/v1/certs",
     "client_x509_cert_url":
-        "https://www.googleapis.com/robot/v1/metadata/x509/gsheets%40iclst-422205.iam.gserviceaccount.com",
+        "https://www.googleapis.com/robot/v1/metadata/x509/icftes%40icftes-app.iam.gserviceaccount.com",
     "universe_domain": "googleapis.com"
   };
 
   // Your spreadsheet ID
-  static const _spreadsheetId = '1u9fKUvVymHb-W6iY0UGIoE-nb3hzxAAXhRQfktpiSoc';
+  static const _spreadsheetId = '1qglftjbYoytykTbP-FXiGpF1aHR9dSiVJiVn4UeNY0M';
 
   //####################################################### GET ALL GUEST ##############################
 
@@ -63,76 +89,45 @@ class GoogleSheetsService {
   static Future<Map<String, dynamic>> checkIfGuestExists_reg(
       String id, String sheetName) async {
     try {
-      // Initialize GSheets
       final gsheets = GSheets(_credentials);
-
-      // Fetch spreadsheet by its ID
       final ss = await gsheets.spreadsheet(_spreadsheetId);
-
-      // Get the worksheet by its title
       final sheet = ss.worksheetByTitle(sheetName);
-
       if (sheet != null) {
-        // Fetch all values in the 'ID' column
         final idColumn = await sheet.values.columnByKey('ID') ?? [];
-
-        // Check if the given ID exists in the 'ID' column
         if (idColumn.contains(id)) {
-          // Get the index of the ID
           final index = idColumn.indexOf(id);
-
-          // Fetch the 'Name' column values
           final names = await sheet.values.columnByKey('Name') ?? [];
-
-          // Check if the 'Name' column has any value at the corresponding index
           if (index >= 0 && index < names.length && names[index].isNotEmpty) {
             final name = names[index];
             return {'if_exists': true, 'name': name, 'index': index};
           }
-        } else {
-          return {'if_exists': null};
+        } else if (RegExp(r'^ICFTES_\d{4}$').hasMatch(id)) {
+          // Check if the ID is valid based on the format
+          return {'if_exists': false, 'name': 'none', 'index': -1};
         }
-      } else {
-        throw ('Worksheet not found');
       }
     } catch (e) {
       throw ('Error checking if guest exists: $e');
     }
-    return {'if_exists': false, 'name': 'none', 'index': 0};
+    return {'if_exists': null, 'name': 'none', 'index': 0};
   }
 
   static Future<Map<String, dynamic>> checkIfGuestExists_update(
       String id, String sheetName) async {
     try {
-      // Initialize GSheets
       final gsheets = GSheets(_credentials);
-
-      // Fetch spreadsheet by its ID
       final ss = await gsheets.spreadsheet(_spreadsheetId);
-
-      // Get the worksheet by its title
       final sheet = ss.worksheetByTitle(sheetName);
-
       if (sheet != null) {
-        // Fetch all values in the 'ID' column
         final idColumn = await sheet.values.columnByKey('ID') ?? [];
-
-        // Check if the given ID exists in the 'ID' column
         if (idColumn.contains(id)) {
-          // Get the index of the ID
           final index = idColumn.indexOf(id);
-
-          // Fetch the 'Name' column values
           final names = await sheet.values.columnByKey('Name') ?? [];
-
-          // Check if the 'Name' column has any value at the corresponding index
           if (index >= 0 && index < names.length && names[index].isNotEmpty) {
             final name = names[index];
             return {'if_exists': true, 'name': name, 'index': index};
           }
         }
-      } else {
-        throw ('Worksheet not found');
       }
     } catch (e) {
       throw ('Error checking if guest exists: $e');
@@ -140,52 +135,54 @@ class GoogleSheetsService {
     return {'if_exists': false, 'name': 'none', 'index': 0};
   }
 
+
   //####################################################### ADD NEW GUEST ##############################
 
-  static Future<void> addGuest(
-      String id, String name, String phone, String institute) async {
+  static Future<void> addGuest(String id, String name, String institute) async {
     try {
-      // Initialize GSheets
       final gsheets = GSheets(_credentials);
-
-      // Fetch spreadsheet by its ID
       final ss = await gsheets.spreadsheet(_spreadsheetId);
-
-      // Get the worksheet by its title
       final sheet = ss.worksheetByTitle('guest_list');
-
       if (sheet != null) {
-        // Find the index of the given ID
-        final idColumn = await sheet.values.columnByKey('ID') ?? [];
-        final index = idColumn.indexOf(id);
-
-        // Create the new row with Registration_Date_Time
         final DateFormat formatter = DateFormat('dd/MM/yyyy - HH:mm');
         final String formattedDate = formatter.format(DateTime.now());
-        final newRow = {
-          'ID': id,
-          'Name': name,
-          'Phone': phone,
-          'Institute': institute,
-          'Registration_Date_Time': formattedDate,
-        };
-
-        // Convert the newRow map into a list
-        final List<dynamic> newRowList = newRow.values.toList();
-
-        // Append the new row at the found index
-        await sheet.values.insertRow(index + 2, newRowList);
+        final newRow = [id, name, institute, formattedDate];
+        await sheet.values.appendRow(newRow);
       } else {
         throw ('Worksheet not found');
       }
     } catch (e) {
       print('Error adding guest: $e');
-      // Show error popup
+      throw ('Error adding guest: $e');
     }
   }
 
   //############################################## Update Activity ######################################
 
+  // Check if guest exists for update
+  static Future<Map<String, dynamic>> checkIfGuestExists(String id) async {
+    try {
+      final gsheets = GSheets(_credentials);
+      final ss = await gsheets.spreadsheet(_spreadsheetId);
+      final sheet = ss.worksheetByTitle('guest_list');
+      if (sheet != null) {
+        final idColumn = await sheet.values.columnByKey('ID') ?? [];
+        if (idColumn.contains(id)) {
+          final index = idColumn.indexOf(id);
+          final names = await sheet.values.columnByKey('Name') ?? [];
+          if (index >= 0 && index < names.length && names[index].isNotEmpty) {
+            final name = names[index];
+            return {'if_exists': true, 'name': name, 'index': index};
+          }
+        }
+      }
+    } catch (e) {
+      throw ('Error checking if guest exists: $e');
+    }
+    return {'if_exists': false, 'name': 'none', 'index': 0};
+  }
+
+  // Update QR Data
   static Future<dynamic> updateQRData(
     String qrData,
     String selectedDay,
@@ -193,69 +190,81 @@ class GoogleSheetsService {
     Map<String, dynamic> result,
   ) async {
     try {
-      // Initialize GSheets
       final gsheets = GSheets(_credentials);
-
-      // Fetch spreadsheet by its ID
       final ss = await gsheets.spreadsheet(_spreadsheetId);
-
-      // Get the worksheet by its title based on the selected day
       final sheet = ss.worksheetByTitle(selectedDay);
-
       if (sheet != null) {
-        // Get the index of the row
         final int index = result['index'];
-
-        // If guest exists
         if (result['if_exists']) {
-          // Return 'is_running' for debugging
-          final List<String>? activityColumn =
-              await sheet.values.columnByKey(selectedActivity);
+          final List<String>? nameColumn =
+              await sheet.values.columnByKey('Name');
+          final List<String>? headers = await sheet.values.row(1);
+          final int nameIndex = headers?.indexOf('Name') ?? -1;
+          final int checkInIndex = headers?.indexOf('Registration Date') ?? -1;
+          final int dinnerIndex = headers?.indexOf('Dinner') ?? -1;
 
-          final List<String>? headers = await sheet.values
-              .row(1); // assuming headers are in the first row
-          final int activityIndex = headers?.indexOf(selectedActivity) ?? -1;
+          final List<String>? checkInColumn =
+              await sheet.values.columnByKey('Registration Date');
+          final List<String>? dinnerColumn =
+              await sheet.values.columnByKey('Dinner');
 
           try {
-            if (activityColumn == null ||
-                activityColumn.isEmpty ||
-                index >= activityColumn.length ||
-                activityColumn[index] == '') {
-              final DateFormat formatter = DateFormat('dd/MM/yyyy - HH:mm');
-              final String formattedDate = formatter.format(DateTime.now());
-              await sheet.values.insertValue(formattedDate,
-                  column: activityIndex + 1, row: index + 2);
-              return 'Updated';
-            } else {
-              return 'already done';
+            if (nameColumn == null ||
+                nameColumn.isEmpty ||
+                index >= nameColumn.length ||
+                nameColumn[index] == '') {
+              final String name = result['name'];
+              await sheet.values
+                  .insertValue(name, column: nameIndex + 1, row: index + 2);
             }
-          } catch (e) {
-            return e;
-          }
-        } else {
-          // Find the name of the ID from the guest_list sheet
-          final guestListSheet = ss.worksheetByTitle('guest_list');
-          final idColumn = await guestListSheet?.values.columnByKey('ID');
-          final nameColumn = await guestListSheet?.values.columnByKey('Name');
-
-          final index = idColumn?.indexOf(qrData) ?? -1;
-          if (index != -1) {
-            final guestName = nameColumn?[index];
-
-            // Add a new row with the ID, Name, and current date/time for the selected activity
             final DateFormat formatter = DateFormat('dd/MM/yyyy - HH:mm');
             final String formattedDate = formatter.format(DateTime.now());
 
-            final newRow = {
-              'ID': qrData,
-              'Name': guestName,
-              selectedActivity: formattedDate,
-            };
-
-            await sheet.values.map.appendRow(newRow);
+            if (selectedActivity == 'check_in') {
+              if (checkInColumn != null &&
+                  checkInColumn.length > index &&
+                  checkInColumn[index].isNotEmpty) {
+                return 'User already checked-in';
+              } else {
+                await sheet.values.insertValue(formattedDate,
+                    column: checkInIndex + 1, row: index + 2);
+              }
+            } else if (selectedActivity == 'dinner') {
+              if (dinnerColumn != null &&
+                  dinnerColumn.length > index &&
+                  dinnerColumn[index].isNotEmpty) {
+                return 'User already completed dinner';
+              } else {
+                await sheet.values.insertValue(formattedDate,
+                    column: dinnerIndex + 1, row: index + 2);
+              }
+            }
             return 'Updated';
-          } else {
-            throw ('ID not found in guest list');
+          } catch (e) {
+            return e.toString();
+          }
+        } else {
+          final guestListSheet = ss.worksheetByTitle('guest_list');
+          final guestIdColumn = await guestListSheet?.values.columnByKey('ID');
+          final guestNameColumn =
+              await guestListSheet?.values.columnByKey('Name');
+          if (guestIdColumn != null && guestNameColumn != null) {
+            final guestIndex = guestIdColumn.indexOf(qrData);
+            if (guestIndex != -1) {
+              final guestName = guestNameColumn[guestIndex];
+              final DateFormat formatter = DateFormat('dd/MM/yyyy - HH:mm');
+              final String formattedDate = formatter.format(DateTime.now());
+              final newRow = {
+                'ID': qrData,
+                'Name': guestName,
+                'Registration Date':
+                    selectedActivity == 'check_in' ? formattedDate : '',
+                'Dinner': selectedActivity == 'dinner' ? formattedDate : '',
+              };
+              final List<dynamic> newRowList = newRow.values.toList();
+              await sheet.values.appendRow(newRowList);
+              return 'Updated';
+            }
           }
         }
       } else {
@@ -266,4 +275,6 @@ class GoogleSheetsService {
       return 'Error: $e';
     }
   }
+
+
 }

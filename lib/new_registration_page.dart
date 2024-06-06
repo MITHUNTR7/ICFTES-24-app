@@ -9,7 +9,6 @@ class NewRegistrationPage extends StatefulWidget {
 
 class _NewRegistrationPageState extends State<NewRegistrationPage> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
   TextEditingController instituteController = TextEditingController();
   TextEditingController iclstIdController = TextEditingController();
 
@@ -24,7 +23,7 @@ class _NewRegistrationPageState extends State<NewRegistrationPage> {
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              Color(0xFFDBE9F6), // Starting color
+              Color(0xFFE0F7FA), // Starting color
               Colors.white, // Ending color
             ],
             stops: [0.7, 1.0], // Gradient stops
@@ -61,8 +60,8 @@ class _NewRegistrationPageState extends State<NewRegistrationPage> {
                         foreground: Paint()
                           ..shader = LinearGradient(
                             colors: [
-                              Color(0xFF5451D6), // Starting color
-                              Color(0xFF1DBEF5), // Ending color
+                              Color(0xFF00796B), // Starting color
+                              Color(0xFF004D40), // Ending color
                             ],
                           ).createShader(
                             Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
@@ -74,14 +73,6 @@ class _NewRegistrationPageState extends State<NewRegistrationPage> {
                     controller: nameController,
                     decoration: const InputDecoration(
                       labelText: 'Name',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  TextFormField(
-                    controller: phoneController,
-                    decoration: const InputDecoration(
-                      labelText: 'Phone',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -100,7 +91,7 @@ class _NewRegistrationPageState extends State<NewRegistrationPage> {
                         child: TextFormField(
                           controller: iclstIdController,
                           decoration: const InputDecoration(
-                            labelText: 'ICLST ID',
+                            labelText: 'ICFTES ID',
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -112,8 +103,8 @@ class _NewRegistrationPageState extends State<NewRegistrationPage> {
                             begin: Alignment.bottomCenter,
                             end: Alignment.topCenter,
                             colors: [
-                              Color(0xff5451D6),
-                              Color(0xff1DBEF5),
+                              Color(0xFF00796B),
+                              Color(0xFF004D40),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(10.0),
@@ -164,8 +155,8 @@ class _NewRegistrationPageState extends State<NewRegistrationPage> {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                         colors: [
-                          Color(0xff5451D6),
-                          Color(0xff1DBEF5),
+                          Color(0xFF00796B),
+                          Color(0xFF004D40),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(25.0),
@@ -203,9 +194,7 @@ class _NewRegistrationPageState extends State<NewRegistrationPage> {
   }
 
   void _registerNewGuest() async {
-    // Check if any input field is empty
     if (nameController.text.isEmpty ||
-        phoneController.text.isEmpty ||
         instituteController.text.isEmpty ||
         iclstIdController.text.isEmpty) {
       _showErrorPopup('Please fill in all fields');
@@ -216,7 +205,6 @@ class _NewRegistrationPageState extends State<NewRegistrationPage> {
       // Show loading popup
     });
 
-    // Show 'Checking ID' loading pop-up
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -225,32 +213,23 @@ class _NewRegistrationPageState extends State<NewRegistrationPage> {
       },
     );
 
-    // Check if the provided ICLST ID is already in use
     Map<String, dynamic> result =
         await GoogleSheetsService.checkIfGuestExists_reg(
             iclstIdController.text, 'guest_list');
 
-    // Hide 'Checking ID' loading pop-up
     Navigator.of(context).pop();
 
     if (result['if_exists'] == null) {
-      // ICLST ID is invalid
-      _showErrorPopup('Invalid ICLST ID');
+      _showErrorPopup('Invalid ICFTES ID');
       return;
     }
-
-    String name = result['name'];
 
     if (result['if_exists'] == true) {
-      setState(() {
-        // Hide loading popup
-      });
-      _showErrorPopup('$name has already used the ICLST ID');
+      _showErrorPopup('${result['name']} has already used the ICFTES ID');
       return;
     }
-    // Register the new guest
+
     try {
-      // Show loading popup during registration
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -262,28 +241,22 @@ class _NewRegistrationPageState extends State<NewRegistrationPage> {
       await GoogleSheetsService.addGuest(
         iclstIdController.text,
         nameController.text,
-        phoneController.text,
         instituteController.text,
       );
 
-      // Clear input fields after successful registration
       nameController.clear();
-      phoneController.clear();
       instituteController.clear();
       iclstIdController.clear();
 
-      // Hide loading popup after registration is completed
       Navigator.of(context).pop();
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Guest registered successfully')),
       );
     } catch (e) {
-      // Hide loading popup if an error occurs
       Navigator.of(context).pop();
       _showErrorPopup('Error registering guest: $e');
     } finally {
-      // Hide loading popup in case of any errors
       setState(() {});
     }
   }
